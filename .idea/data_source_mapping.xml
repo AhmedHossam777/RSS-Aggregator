@@ -3,5 +3,6 @@
   <component name="DataSourcePerFileMappings">
     <file url="file://$PROJECT_DIR$/sql/queries/user.sql" value="98b2532b-9ac3-4a4e-97a9-b217b5507847" />
     <file url="file://$PROJECT_DIR$/sql/schema/001_users.sql" value="98b2532b-9ac3-4a4e-97a9-b217b5507847" />
+    <file url="file://$PROJECT_DIR$/sql/schema/002_user_apikey.sql" value="98b2532b-9ac3-4a4e-97a9-b217b5507847" />
   </component>
 </project>
