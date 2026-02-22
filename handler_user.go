@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github/AhmedHossam777/RSS-Aggregator/internal/auth"
 	"github/AhmedHossam777/RSS-Aggregator/internal/database"
 )
 
@@ -47,19 +46,7 @@ func (apiCfg *apiConfig) handlerCreateUser(
 }
 
 func (apiCfg *apiConfig) handlerGetUser(
-	w http.ResponseWriter, r *http.Request,
+	w http.ResponseWriter, r *http.Request, user database.User,
 ) {
-	apiKey, err := auth.GetApiKey(r.Header)
-	if err != nil {
-		ResponseWithError(w, 403, fmt.Sprintf("error getting the api key, %v", err))
-		return
-	}
-
-	user, err := apiCfg.db.GetUserByApiKey(r.Context(), apiKey)
-	if err != nil {
-		ResponseWithError(w, 400, fmt.Sprintf("error fetching the user, %v", err))
-		return
-	}
-
 	ResponseWithJson(w, 200, DatabaseUserToUser(user))
 }
