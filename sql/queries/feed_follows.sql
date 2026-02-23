@@ -4,3 +4,7 @@ returning *;
 
 -- name: GetFeedFollows :many
 SELECT * FROM feed_follows WHERE user_id = $1;
+
+-- name: DeleteFeedFollow :one
+DELETE FROM feed_follows WHERE feed_id = $1 AND user_id = $2
+returning *;

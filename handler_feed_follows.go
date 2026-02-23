@@ -38,3 +38,46 @@ func (apiCfg *apiConfig) handlerCreateFeedFollow(
 
 	ResponseWithJson(w, 201, DatabaseFeedFollowToFeedFollow(feedFollow))
 }
+
+func (apiCfg *apiConfig) handlerGetFeedsFollow(
+	w http.ResponseWriter,
+	r *http.Request, user database.User,
+) {
+	feeds, err := apiCfg.db.GetFeedFollows(r.Context(), user.ID)
+	if err != nil {
+		ResponseWithError(
+			w, 400, fmt.Sprintf("Error getting feed follows: %v", err),
+		)
+		return
+	}
+
+	ResponseWithJson(w, 200, DatabaseFeedFollowsToFeedFollows(feeds))
+}
+
+func (apiCfg *apiConfig) handlerDeleteFeedFollow(
+	w http.ResponseWriter,
+	r *http.Request, user database.User,
+) {
+
+	feedId := chi.URLParam(r, "id")
+	parsedFeedId, err := uuid.Parse(feedId)
+	if err != nil {
+		ResponseWithError(w, 400, fmt.Sprintf("invalid uuid format: %v", err))
+		return
+	}
+
+	feedFollow, err := apiCfg.db.DeleteFeedFollow(
+		r.Context(), database.DeleteFeedFollowParams{
+			FeedID: parsedFeedId,
+			UserID: user.ID,
+		},
+	)
+	if err != nil {
+		ResponseWithError(
+			w, 400, fmt.Sprintf("Error deleting feed follows: %v", err),
+		)
+		return
+	}
+
+	ResponseWithJson(w, 200, DatabaseFeedFollowToFeedFollow(feedFollow))
+}
